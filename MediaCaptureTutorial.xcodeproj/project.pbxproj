@@ -9,21 +9,27 @@
 /* Begin PBXBuildFile section */
 		EC3DB4542773FABF00F4B7A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB4532773FABF00F4B7A0 /* AppDelegate.swift */; };
 		EC3DB4562773FABF00F4B7A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB4552773FABF00F4B7A0 /* SceneDelegate.swift */; };
-		EC3DB4582773FABF00F4B7A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB4572773FABF00F4B7A0 /* ViewController.swift */; };
 		EC3DB45B2773FABF00F4B7A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC3DB4592773FABF00F4B7A0 /* Main.storyboard */; };
 		EC3DB45D2773FAC000F4B7A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC3DB45C2773FAC000F4B7A0 /* Assets.xcassets */; };
 		EC3DB4602773FAC000F4B7A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC3DB45E2773FAC000F4B7A0 /* LaunchScreen.storyboard */; };
+		EC3DB4682773FB4800F4B7A0 /* ListCtrlr.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB4672773FB4800F4B7A0 /* ListCtrlr.swift */; };
+		EC3DB46A2773FB6900F4B7A0 /* ScanCodeCtrlr.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB4692773FB6900F4B7A0 /* ScanCodeCtrlr.swift */; };
+		EC3DB46C2773FB8800F4B7A0 /* FrameExtractionCtrlr.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB46B2773FB8800F4B7A0 /* FrameExtractionCtrlr.swift */; };
+		EC3DB470277408FE00F4B7A0 /* CapturePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB46F277408FE00F4B7A0 /* CapturePreviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EC3DB4502773FABF00F4B7A0 /* MediaCaptureTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaCaptureTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC3DB4532773FABF00F4B7A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC3DB4552773FABF00F4B7A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EC3DB4572773FABF00F4B7A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EC3DB45A2773FABF00F4B7A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC3DB45C2773FAC000F4B7A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC3DB45F2773FAC000F4B7A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EC3DB4612773FAC000F4B7A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC3DB4672773FB4800F4B7A0 /* ListCtrlr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCtrlr.swift; sourceTree = "<group>"; };
+		EC3DB4692773FB6900F4B7A0 /* ScanCodeCtrlr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanCodeCtrlr.swift; sourceTree = "<group>"; };
+		EC3DB46B2773FB8800F4B7A0 /* FrameExtractionCtrlr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameExtractionCtrlr.swift; sourceTree = "<group>"; };
+		EC3DB46F277408FE00F4B7A0 /* CapturePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePreviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +64,10 @@
 			children = (
 				EC3DB4532773FABF00F4B7A0 /* AppDelegate.swift */,
 				EC3DB4552773FABF00F4B7A0 /* SceneDelegate.swift */,
-				EC3DB4572773FABF00F4B7A0 /* ViewController.swift */,
+				EC3DB4672773FB4800F4B7A0 /* ListCtrlr.swift */,
+				EC3DB4692773FB6900F4B7A0 /* ScanCodeCtrlr.swift */,
+				EC3DB46B2773FB8800F4B7A0 /* FrameExtractionCtrlr.swift */,
+				EC3DB46F277408FE00F4B7A0 /* CapturePreviewView.swift */,
 				EC3DB4592773FABF00F4B7A0 /* Main.storyboard */,
 				EC3DB45C2773FAC000F4B7A0 /* Assets.xcassets */,
 				EC3DB45E2773FAC000F4B7A0 /* LaunchScreen.storyboard */,
@@ -138,7 +147,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC3DB4582773FABF00F4B7A0 /* ViewController.swift in Sources */,
+				EC3DB470277408FE00F4B7A0 /* CapturePreviewView.swift in Sources */,
+				EC3DB46C2773FB8800F4B7A0 /* FrameExtractionCtrlr.swift in Sources */,
+				EC3DB4682773FB4800F4B7A0 /* ListCtrlr.swift in Sources */,
+				EC3DB46A2773FB6900F4B7A0 /* ScanCodeCtrlr.swift in Sources */,
 				EC3DB4542773FABF00F4B7A0 /* AppDelegate.swift in Sources */,
 				EC3DB4562773FABF00F4B7A0 /* SceneDelegate.swift in Sources */,
 			);
@@ -292,6 +304,7 @@
 				DEVELOPMENT_TEAM = 59GR3MXAYN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MediaCaptureTutorial/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "需要访问您的相机权限";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -320,6 +333,7 @@
 				DEVELOPMENT_TEAM = 59GR3MXAYN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MediaCaptureTutorial/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "需要访问您的相机权限";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
