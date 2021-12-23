@@ -28,7 +28,7 @@ final class FrameExtractionCtrlr: UIViewController {
     }
     
     deinit {
-        print("FrameExtractionCtrlr")
+        // print("FrameExtractionCtrlr")
     }
 }
 

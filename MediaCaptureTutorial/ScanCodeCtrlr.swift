@@ -7,16 +7,28 @@
 
 import UIKit
 import AVFoundation
+import RxSwift
+import RxCocoa
+import PrivacyManager
+import PrivacyCamera
 
 final class ScanCodeCtrlr: UIViewController {
 
+    private let disposeBag = DisposeBag()
     private let sessionQueue = DispatchQueue(label: "session queue")
     private let captureSession = AVCaptureSession()
     private var scanLine: UIImageView!
     private let previewView = CapturePreviewView()
-    private let activityIndicator = UIActivityIndicatorView(style: .medium)
+    private let metadataOutput = AVCaptureMetadataOutput()
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
+    private var scannerRect: CGRect {
+        let x: CGFloat = 50.0
+        let width = screenWidth - 2 * x
+        let y = (screenHeight - width)/2
+        
+        return CGRect(x: x, y: y, width: width, height: width)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,39 +36,19 @@ final class ScanCodeCtrlr: UIViewController {
         self.title = "扫一扫"
         self.view.backgroundColor = UIColor.black
         setupView()
+        observedNotification()
         
-//        PrivacyManager.sharedInstance.rx_cameraStatus
-//            .subscribeNext { [weak self] status in
-//                if status == PermissionStatus.authorized {
-//                    onMainQueue {
-//                       self?.setupView()
-//                    }
-//                } else if status == PermissionStatus.unauthorized {
-//                    self?.privacyUnauthorized(PermissionType.camera,
-//                        cancelBlock: {
-//                            self?.navigationController?.popViewController(animated: true)
-//                        }, settingBlock: {
-//                            self?.navigationController?.popViewController(animated: false)
-//                    })
-//                }
-//            }.disposed(by: disposeBag)
-//
-//        NotificationCenter.default.rx.notification(NSNotification.Name.AVCaptureInputPortFormatDescriptionDidChange)
-//            .subscribeNext { [weak self] _ in
-//                if let strongSelf = self {
-//                    let rect = strongSelf.previewLayer.metadataOutputRectConverted(fromLayerRect: strongSelf.scannerRect())
-//                    strongSelf.metadataOutput.rectOfInterest = rect
-//                }
-//            }.disposed(by: disposeBag)
-        
-        sessionQueue.async { [unowned self] in
-            self.configureSession()
-            self.captureSession.startRunning()
-        }
+        // 权限判断
+        PrivacyManager.shared.cameraPermission(presenting: self, desc: "需要访问您的相机", authorized: { [weak self] in
+            self?.sessionQueue.async { [weak self] in
+                self?.configureSession()
+                self?.captureSession.startRunning()
+            }
+        })
     }
     
     deinit {
-        print("ScanCodeCtrlr")
+        // print("ScanCodeCtrlr")
     }
 }
 
@@ -82,19 +74,20 @@ private extension ScanCodeCtrlr {
         guard captureSession.canAddInput(captureDeviceInput) else { return }
         captureSession.addInput(captureDeviceInput)
         
-        
-        let metadataOutput = AVCaptureMetadataOutput()
         guard captureSession.canAddOutput(metadataOutput) else { return }
         captureSession.addOutput(metadataOutput)
-        metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+        metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue(label: "metadata output"))
         metadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr, AVMetadataObject.ObjectType.ean8, AVMetadataObject.ObjectType.ean13, AVMetadataObject.ObjectType.pdf417]
+        
+        DispatchQueue.main.async {
+            self.previewView.session = self.captureSession
+        }
     }
 }
 
 // MARK: - Setup
 private extension ScanCodeCtrlr {
     func setupView() {
-        print("size = ", self.view.bounds.size)
         setPreviewView()
         setShadowView()
         setupScanLine()
@@ -103,19 +96,18 @@ private extension ScanCodeCtrlr {
     }
     
     func setPreviewView() {
-        previewView.session = captureSession
         previewView.videoPreviewLayer.videoGravity = .resizeAspectFill
         self.view.addSubview(previewView)
-        previewView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-        previewView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        previewView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        previewView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        previewView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        previewView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        previewView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        previewView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         previewView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func setShadowView() {
         let shadowView = UIImageView(frame: view.bounds)
-        let innerRect = scannerRect()
+        let innerRect = scannerRect
         
         UIGraphicsBeginImageContext(shadowView.frame.size)
         let context = UIGraphicsGetCurrentContext()!
@@ -133,7 +125,7 @@ private extension ScanCodeCtrlr {
     }
     
     func setupScanLine() {
-        let rect = scannerRect()
+        let rect = scannerRect
         let imageSize: CGFloat = 18.0
         let imageX = rect.origin.x
         let imageY = rect.origin.y
@@ -160,15 +152,10 @@ private extension ScanCodeCtrlr {
         scanLine = UIImageView(frame: CGRect(x: imageX, y: imageY, width: width, height: 2))
         scanLine.image = UIImage(named: "scan_line")
         self.view.addSubview(scanLine)
-        
-//        self.view.addSubview(activityIndicator)
-//        activityIndicator.center = CGPoint(x: rect.midX, y: rect.midY)
-//        activityIndicator.hidesWhenStopped = true
-//        activityIndicator.startAnimating()
     }
     
     func setupDescView() {
-        let rect = scannerRect()
+        let rect = scannerRect
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.white
@@ -179,7 +166,7 @@ private extension ScanCodeCtrlr {
     }
     
     func animateScanLine() {
-        let rect = scannerRect()
+        let rect = scannerRect
         
         let imageX = rect.origin.x
         let imageY = rect.origin.y
@@ -190,29 +177,26 @@ private extension ScanCodeCtrlr {
         scanLine.frame = frame
         UIView.animate(withDuration: 1.5, delay: 0, options: UIView.AnimationOptions.repeat, animations: { [weak self] in
             self?.scanLine.frame = frame.offsetBy(dx: 0, dy: height)
-            }, completion: nil)
+        }, completion: nil)
     }
 }
 
 // MARK: - Help
 private extension ScanCodeCtrlr {
     func observedNotification() {
+        NotificationCenter.default.rx.notification(.AVCaptureInputPortFormatDescriptionDidChange)
+            .subscribe { [weak self] (notification: Notification) in
+                guard let self = self else { return }
+                print("scannerRect = ", self.previewView.videoPreviewLayer.frame, self.scannerRect)
+                let rect = self.previewView.videoPreviewLayer.metadataOutputRectConverted(fromLayerRect: self.scannerRect)
+                print("rect = ", rect)
+                self.metadataOutput.rectOfInterest = rect
+            }.disposed(by: disposeBag)
         
-    }
-    
-    func scannerRect() -> CGRect {
-        let x: CGFloat = 50.0
-        let width = screenWidth - 2 * x
-        let y = (screenHeight - width)/2
-        
-        return CGRect(x: x, y: y, width: width, height: width)
-    }
-    
-    func captureRect() -> CGRect {
-        let rect = scannerRect()
-        let x = rect.origin.x / screenWidth
-        let width = rect.size.width / screenWidth
-        return CGRect(x: x, y: 0, width: width, height: 1.0)
+        NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+            .subscribe { [weak self] (notification: Notification) in
+                self?.animateScanLine()
+            }.disposed(by: disposeBag)
     }
 }
 

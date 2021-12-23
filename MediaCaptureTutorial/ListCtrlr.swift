@@ -44,6 +44,7 @@ extension ListCtrlr: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
+        cell.accessoryType = .disclosureIndicator
         
         switch indexPath.row {
             case 0:

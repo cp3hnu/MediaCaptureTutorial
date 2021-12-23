@@ -16,6 +16,11 @@
 		EC3DB46A2773FB6900F4B7A0 /* ScanCodeCtrlr.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB4692773FB6900F4B7A0 /* ScanCodeCtrlr.swift */; };
 		EC3DB46C2773FB8800F4B7A0 /* FrameExtractionCtrlr.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB46B2773FB8800F4B7A0 /* FrameExtractionCtrlr.swift */; };
 		EC3DB470277408FE00F4B7A0 /* CapturePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3DB46F277408FE00F4B7A0 /* CapturePreviewView.swift */; };
+		EC3DB4732774287700F4B7A0 /* PrivacyCamera in Frameworks */ = {isa = PBXBuildFile; productRef = EC3DB4722774287700F4B7A0 /* PrivacyCamera */; };
+		EC3DB4752774287700F4B7A0 /* PrivacyManager in Frameworks */ = {isa = PBXBuildFile; productRef = EC3DB4742774287700F4B7A0 /* PrivacyManager */; };
+		EC3DB47827742BFE00F4B7A0 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = EC3DB47727742BFE00F4B7A0 /* RxCocoa */; };
+		EC3DB47A27742BFE00F4B7A0 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = EC3DB47927742BFE00F4B7A0 /* RxRelay */; };
+		EC3DB47C27742BFE00F4B7A0 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EC3DB47B27742BFE00F4B7A0 /* RxSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +42,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC3DB47827742BFE00F4B7A0 /* RxCocoa in Frameworks */,
+				EC3DB4732774287700F4B7A0 /* PrivacyCamera in Frameworks */,
+				EC3DB47C27742BFE00F4B7A0 /* RxSwift in Frameworks */,
+				EC3DB47A27742BFE00F4B7A0 /* RxRelay in Frameworks */,
+				EC3DB4752774287700F4B7A0 /* PrivacyManager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +102,13 @@
 			dependencies = (
 			);
 			name = MediaCaptureTutorial;
+			packageProductDependencies = (
+				EC3DB4722774287700F4B7A0 /* PrivacyCamera */,
+				EC3DB4742774287700F4B7A0 /* PrivacyManager */,
+				EC3DB47727742BFE00F4B7A0 /* RxCocoa */,
+				EC3DB47927742BFE00F4B7A0 /* RxRelay */,
+				EC3DB47B27742BFE00F4B7A0 /* RxSwift */,
+			);
 			productName = MediaCaptureTutorial;
 			productReference = EC3DB4502773FABF00F4B7A0 /* MediaCaptureTutorial.app */;
 			productType = "com.apple.product-type.application";
@@ -120,6 +137,10 @@
 				Base,
 			);
 			mainGroup = EC3DB4472773FABF00F4B7A0;
+			packageReferences = (
+				EC3DB4712774287700F4B7A0 /* XCRemoteSwiftPackageReference "RxPrivacyManager" */,
+				EC3DB47627742BFE00F4B7A0 /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			productRefGroup = EC3DB4512773FABF00F4B7A0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -374,6 +395,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EC3DB4712774287700F4B7A0 /* XCRemoteSwiftPackageReference "RxPrivacyManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cp3hnu/RxPrivacyManager.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		EC3DB47627742BFE00F4B7A0 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EC3DB4722774287700F4B7A0 /* PrivacyCamera */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC3DB4712774287700F4B7A0 /* XCRemoteSwiftPackageReference "RxPrivacyManager" */;
+			productName = PrivacyCamera;
+		};
+		EC3DB4742774287700F4B7A0 /* PrivacyManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC3DB4712774287700F4B7A0 /* XCRemoteSwiftPackageReference "RxPrivacyManager" */;
+			productName = PrivacyManager;
+		};
+		EC3DB47727742BFE00F4B7A0 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC3DB47627742BFE00F4B7A0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		EC3DB47927742BFE00F4B7A0 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC3DB47627742BFE00F4B7A0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		EC3DB47B27742BFE00F4B7A0 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC3DB47627742BFE00F4B7A0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EC3DB4482773FABF00F4B7A0 /* Project object */;
 }
